@@ -1,5 +1,6 @@
 package com.taihuafufc.lybugproducer;
 
+import com.taihuafufc.lybugproducer.protocol.Protocol;
 import lombok.Data;
 
 /**
@@ -11,9 +12,13 @@ import lombok.Data;
 @Data
 public class ProtocolConfig {
 
-    private final String protocolName;
+    private Class<? extends Protocol> protocolClass;
 
-    public ProtocolConfig(String protocolName) {
-        this.protocolName = protocolName;
+    public Protocol getProtocol() {
+        try {
+            return protocolClass.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

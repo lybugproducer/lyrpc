@@ -1,7 +1,6 @@
 package com.taihuafufc.lybugproducer;
 
 import lombok.Data;
-import lombok.Setter;
 
 /**
  * TODO
@@ -14,5 +13,6 @@ public class ServiceConfig<T> {
 
     private Class<T> interfaceClass;
     private T reference;
-
+    private String serviceName;
+    private String address;
 }

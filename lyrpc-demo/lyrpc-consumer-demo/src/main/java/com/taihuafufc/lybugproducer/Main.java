@@ -1,5 +1,7 @@
 package com.taihuafufc.lybugproducer;
 
+import com.taihuafufc.lybugproducer.discovery.impl.ZookeeperRegistry;
+
 public class Main {
     public static void main(String[] args) {
         ReferenceConfig<UserLyrpc> userReferenceConfig = new ReferenceConfig<>();
@@ -8,14 +10,17 @@ public class Main {
         ReferenceConfig<ArticleLyrpc> articleReferenceConfig = new ReferenceConfig<>();
         articleReferenceConfig.setInterfaceClass(ArticleLyrpc.class);
 
+        RegistryConfig registryConfig = new RegistryConfig();
+        registryConfig.setRegistryClass(ZookeeperRegistry.class);
+        registryConfig.setAddress("127.0.0.1:2181");
+
         LyrpcBootstrap.getInstance()
-                .name("lyrpc-consumer")
-                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+                .registry(registryConfig)
                 .reference(userReferenceConfig)
                 .reference(articleReferenceConfig);
 
-//        // 获取代理对象
-//        UserLyrpc userLyrpc = userReferenceConfig.getProxy();
-//        String userById = userLyrpc.getUserById(123456);
+        // 获取代理对象
+        UserLyrpc proxy = userReferenceConfig.getProxy();
+        proxy.getUserById(123456);
     }
 }

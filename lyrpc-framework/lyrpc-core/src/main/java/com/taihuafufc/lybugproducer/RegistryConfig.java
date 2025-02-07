@@ -1,6 +1,11 @@
 package com.taihuafufc.lybugproducer;
 
+import com.taihuafufc.lybugproducer.discovery.Registry;
+import com.taihuafufc.lybugproducer.discovery.impl.ZookeeperRegistry;
 import lombok.Data;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * TODO
@@ -11,9 +16,19 @@ import lombok.Data;
 @Data
 public class RegistryConfig {
 
-    private final String url;
+    private Class<? extends Registry> registryClass;
+    private String address;
 
-    public RegistryConfig(String url) {
-        this.url = url;
+    public RegistryConfig() {
+    }
+
+    public Registry getRegistry() {
+        try {
+            Constructor<? extends Registry> constructor
+                    = registryClass.getConstructor(String.class);
+            return constructor.newInstance(address);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
