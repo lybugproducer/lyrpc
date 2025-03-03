@@ -1,5 +1,6 @@
 package com.lyrpc.core.discovery;
 
+import com.lyrpc.core.Lyrpc;
 import com.lyrpc.core.config.ServiceConfig;
 
 import java.util.List;
@@ -22,10 +23,10 @@ public abstract class LyrpcProviderRegistry implements LyrpcRegistry {
      *
      * @param config 服务配置
      */
-    public abstract void register(ServiceConfig<?> config, String address);
+    public abstract void register(ServiceConfig<? extends Lyrpc> config, String address);
 
     @Override
-    public List<String> discover(Class<?> clazz) {
+    public List<String> discover(Class<? extends Lyrpc> clazz) {
         return null;
     }
 }

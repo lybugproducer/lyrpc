@@ -1,5 +1,6 @@
 package com.lyrpc.core.discovery.impl;
 
+import com.lyrpc.core.Lyrpc;
 import com.lyrpc.core.cache.LyrpcConsumerCache;
 import com.lyrpc.core.discovery.LyrpcConsumerRegistry;
 import com.lyrpc.core.discovery.impl.zk.ZookeeperUtil;
@@ -24,7 +25,7 @@ public class ZookeeperConsumerRegistry extends LyrpcConsumerRegistry {
     }
 
     @Override
-    public List<String> discover(Class<?> clazz) {
+    public List<String> discover(Class<? extends Lyrpc> clazz) {
         // 获取接口的全限定名
         String name = clazz.getName();
 

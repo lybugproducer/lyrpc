@@ -1,5 +1,6 @@
 package com.lyrpc.core.loadbalancer;
 
+import com.lyrpc.core.Lyrpc;
 import com.lyrpc.core.cache.LyrpcConsumerCache;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public abstract class LyrpcLoadBalancer {
         this.cache = cache;
     }
 
-    public synchronized String choose(Class<?> clazz) {
+    public synchronized String choose(Class<? extends Lyrpc> clazz) {
         // 从缓存中获取服务地址列表
         List<String> serviceAddressList = cache.getServiceAddressList(clazz);
 

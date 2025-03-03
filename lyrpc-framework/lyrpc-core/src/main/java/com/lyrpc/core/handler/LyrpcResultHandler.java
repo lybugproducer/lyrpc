@@ -1,5 +1,6 @@
 package com.lyrpc.core.handler;
 
+import com.lyrpc.core.Lyrpc;
 import com.lyrpc.core.cache.LyrpcConsumerCache;
 import com.lyrpc.core.trans.LyrpcResponse;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,7 +31,7 @@ public class LyrpcResultHandler extends ChannelInboundHandlerAdapter {
 
         // 解析返回值结果
         byte[] resultBytes = response.getResultBytes();
-        Class<?> resultType = cache.getResultType(requestId);
+        Class<? extends Lyrpc> resultType = cache.getResultType(requestId);
 
         // 反序列化
         Object result = datagramHandler.deserialize(resultBytes, resultType);

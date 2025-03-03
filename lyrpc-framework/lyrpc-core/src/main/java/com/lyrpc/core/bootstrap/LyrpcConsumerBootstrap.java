@@ -1,5 +1,6 @@
 package com.lyrpc.core.bootstrap;
 
+import com.lyrpc.core.Lyrpc;
 import com.lyrpc.core.cache.LyrpcConsumerCache;
 import com.lyrpc.core.config.*;
 import com.lyrpc.core.discovery.LyrpcRegistry;
@@ -128,7 +129,7 @@ public class LyrpcConsumerBootstrap {
      * @author lybugproducer
      * @since 2025/2/16 10:54
      */
-    public LyrpcConsumerBootstrap reference(ReferenceConfig<?> referenceConfig) {
+    public LyrpcConsumerBootstrap reference(ReferenceConfig<? extends Lyrpc> referenceConfig) {
         referenceConfig.setLoadBalancer(loadBalancer);
         referenceConfig.setCache(cache);
         referenceConfig.setIdGenerator(idGenerator);
@@ -167,8 +168,8 @@ public class LyrpcConsumerBootstrap {
      *
      * @param referenceConfig 服务配置
      */
-    private void initChannel(ReferenceConfig<?> referenceConfig) {
-        Class<?> clazz = referenceConfig.getInterfaceClass();
+    private void initChannel(ReferenceConfig<? extends Lyrpc> referenceConfig) {
+        Class<? extends Lyrpc> clazz = referenceConfig.getInterfaceClass();
         // 预连接服务地址
         List<String> addressList = registry.discover(clazz);
         for (String address : addressList) {

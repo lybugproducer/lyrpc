@@ -1,5 +1,6 @@
 package com.lyrpc.core.trans;
 
+import com.lyrpc.core.Lyrpc;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class LyrpcResponsePayload {
 
     // 返回值类型
-    private Class<?> returnType;
+    private Class<? extends Lyrpc> returnType;
 
     // 返回值
     private Object result;

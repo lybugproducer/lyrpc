@@ -1,5 +1,6 @@
 package com.lyrpc.core.trans;
 
+import com.lyrpc.core.Lyrpc;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +29,7 @@ public class LyrpcRequestPayload implements Serializable {
     // 请求参数列表 parameterTypes 和 parameters 配合使用
 
     // 参数类型确定重载方法
-    private Class<?>[] parameterTypes;
+    private Class<? extends Lyrpc>[] parameterTypes;
 
     // 具体参数执行方法调用
     private Object[] parameters;

@@ -1,5 +1,6 @@
 package com.lyrpc.core.discovery;
 
+import com.lyrpc.core.Lyrpc;
 import com.lyrpc.core.config.ServiceConfig;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public interface LyrpcRegistry {
      *
      * @param config 服务配置
      */
-    void register(ServiceConfig<?> config, String address);
+    void register(ServiceConfig<? extends Lyrpc> config, String address);
 
     /**
      * 发现服务
@@ -34,6 +35,6 @@ public interface LyrpcRegistry {
      * @param clazz 服务接口
      * @return 服务地址
      */
-    List<String> discover(Class<?> clazz);
+    List<String> discover(Class<? extends Lyrpc> clazz);
 
 }

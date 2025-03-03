@@ -1,5 +1,6 @@
 package com.lyrpc.core.bootstrap;
 
+import com.lyrpc.core.Lyrpc;
 import com.lyrpc.core.config.DatagramConfig;
 import com.lyrpc.core.config.ProviderRegistryConfig;
 import com.lyrpc.core.config.ServerConfig;
@@ -40,7 +41,7 @@ public class LyrpcProviderBootstrap {
 
     private LyrpcRegistry registry;
 
-    private final Map<String, ServiceConfig<?>> serviceMap;
+    private final Map<String, ServiceConfig<? extends Lyrpc>> serviceMap;
 
     private String address;
 
@@ -114,7 +115,7 @@ public class LyrpcProviderBootstrap {
      * @param serviceConfig 服务配置
      * @return LyrpcProviderBootstrap 当前对象
      */
-    public LyrpcProviderBootstrap publish(ServiceConfig<?> serviceConfig) {
+    public LyrpcProviderBootstrap publish(ServiceConfig<? extends Lyrpc> serviceConfig) {
 
         if (address == null) {
             // 服务器地址未配置
@@ -122,7 +123,7 @@ public class LyrpcProviderBootstrap {
         }
 
         // 这里是 策略设计模式 将服务注册到注册中心
-        registry.register(serviceConfig, address);
+        registry.register((ServiceConfig<? extends Lyrpc>) serviceConfig, address);
 
         // 将服务配置加入到服务列表
         serviceMap.put(serviceConfig.getInterfaceClass().getName(), serviceConfig);

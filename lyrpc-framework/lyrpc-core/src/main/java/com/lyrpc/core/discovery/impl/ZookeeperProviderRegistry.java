@@ -1,5 +1,6 @@
 package com.lyrpc.core.discovery.impl;
 
+import com.lyrpc.core.Lyrpc;
 import com.lyrpc.core.config.ServiceConfig;
 import com.lyrpc.core.discovery.LyrpcProviderRegistry;
 import com.lyrpc.core.discovery.impl.zk.ZookeeperNode;
@@ -26,7 +27,7 @@ public class ZookeeperProviderRegistry extends LyrpcProviderRegistry {
     }
 
     @Override
-    public void register(ServiceConfig<?> serviceConfig, String address) {
+    public void register(ServiceConfig<? extends Lyrpc> serviceConfig, String address) {
 
         // 创建根节点
         ZookeeperNode rootNode = new ZookeeperNode(ROOT_NODE_PATH, null);

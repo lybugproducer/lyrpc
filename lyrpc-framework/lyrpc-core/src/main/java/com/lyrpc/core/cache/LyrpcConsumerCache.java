@@ -1,5 +1,6 @@
 package com.lyrpc.core.cache;
 
+import com.lyrpc.core.Lyrpc;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -29,10 +30,10 @@ public class LyrpcConsumerCache {
     private final Map<Long, CompletableFuture<Object>> requestCache;
 
     // 通过 requestId 作为 key 缓存请求的返回值
-    private final Map<Long, Class<?>> resultTypeCache;
+    private final Map<Long, Class<? extends Lyrpc>> resultTypeCache;
 
     // 通过 clazz 作为 key 缓存服务的地址的列表
-    private final Map<Class<?>, List<String>> serviceAddressCache;
+    private final Map<Class<? extends Lyrpc>, List<String>> serviceAddressCache;
 
     public LyrpcConsumerCache(Bootstrap bootstrap) {
         this.bootstrap = bootstrap;
@@ -126,7 +127,7 @@ public class LyrpcConsumerCache {
      * @param requestId 请求 id
      * @return 请求结果类型
      */
-    public Class<?> getResultType(long requestId) {
+    public Class<? extends Lyrpc> getResultType(long requestId) {
         return resultTypeCache.get(requestId);
     }
 
@@ -136,7 +137,7 @@ public class LyrpcConsumerCache {
      * @param requestId  请求 id
      * @param resultType 请求结果类型
      */
-    public void cacheResultType(long requestId, Class<?> resultType) {
+    public void cacheResultType(long requestId, Class<? extends Lyrpc> resultType) {
         resultTypeCache.put(requestId, resultType);
     }
 
@@ -146,7 +147,7 @@ public class LyrpcConsumerCache {
      * @param clazz 服务接口类
      * @return 服务地址列表
      */
-    public List<String> getServiceAddressList(Class<?> clazz) {
+    public List<String> getServiceAddressList(Class<? extends Lyrpc> clazz) {
         return serviceAddressCache.get(clazz);
     }
 
@@ -156,7 +157,7 @@ public class LyrpcConsumerCache {
      * @param clazz              服务接口类
      * @param serviceAddressList 服务地址列表
      */
-    public void refreshServiceAddressList(Class<?> clazz, List<String> serviceAddressList) {
+    public void refreshServiceAddressList(Class<? extends Lyrpc> clazz, List<String> serviceAddressList) {
         serviceAddressCache.put(clazz, serviceAddressList);
     }
 }

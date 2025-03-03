@@ -1,5 +1,6 @@
 package com.lyrpc.core.discovery;
 
+import com.lyrpc.core.Lyrpc;
 import com.lyrpc.core.cache.LyrpcConsumerCache;
 import com.lyrpc.core.config.ServiceConfig;
 
@@ -27,12 +28,12 @@ public abstract class LyrpcConsumerRegistry implements LyrpcRegistry {
      * @param clazz 服务接口
      * @return 服务地址
      */
-    public abstract List<String> discover(Class<?> clazz);
+    public abstract List<String> discover(Class<? extends Lyrpc> clazz);
 
     @Override
-    public void register(ServiceConfig<?> config, String address) {}
+    public void register(ServiceConfig<? extends Lyrpc> config, String address) {}
 
-    protected void refresh(Class<?> clazz, List<String> serviceAddressList) {
+    protected void refresh(Class<? extends Lyrpc> clazz, List<String> serviceAddressList) {
         cache.refreshServiceAddressList(clazz, serviceAddressList);
     }
 }

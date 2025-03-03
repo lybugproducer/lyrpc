@@ -1,5 +1,6 @@
 package com.lyrpc.core.handler;
 
+import com.lyrpc.core.Lyrpc;
 import com.lyrpc.core.config.ServiceConfig;
 import com.lyrpc.core.enumeration.LyrpcResponseStatus;
 import com.lyrpc.core.trans.LyrpcRequest;
@@ -21,11 +22,11 @@ import java.util.Map;
 @Slf4j
 public class LyrpcMethodCallHandler extends ChannelInboundHandlerAdapter {
 
-    private final Map<String, ServiceConfig<?>> serviceMap;
+    private final Map<String, ServiceConfig<? extends Lyrpc>> serviceMap;
 
     private final LyrpcDatagramHandler datagramHandler;
 
-    public LyrpcMethodCallHandler(Map<String, ServiceConfig<?>> serviceMap, LyrpcDatagramHandler datagramHandler) {
+    public LyrpcMethodCallHandler(Map<String, ServiceConfig<? extends Lyrpc>> serviceMap, LyrpcDatagramHandler datagramHandler) {
         this.serviceMap = serviceMap;
         this.datagramHandler = datagramHandler;
     }
@@ -55,12 +56,12 @@ public class LyrpcMethodCallHandler extends ChannelInboundHandlerAdapter {
     private Object callMethod(LyrpcRequestPayload payload) {
         // 从请求负载中获取方法名 参数类型 参数值 接口名
         String methodName = payload.getMethodName();
-        Class<?>[] parameterTypes = payload.getParameterTypes();
+        Class<? extends Lyrpc>[] parameterTypes = payload.getParameterTypes();
         Object[] parameters = payload.getParameters();
         String interfaceName = payload.getInterfaceName();
 
         // 从服务列表中获取服务实现类对象
-        ServiceConfig<?> serviceConfig = serviceMap.get(interfaceName);
+        ServiceConfig<? extends Lyrpc> serviceConfig = serviceMap.get(interfaceName);
         Object reference = serviceConfig.getReference();
 
         // 通过反射调用方法
