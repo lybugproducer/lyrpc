@@ -4,7 +4,7 @@ import com.taihuafufc.lybugproducer.User;
 import com.taihuafufc.lybugproducer.UserLyrpc;
 
 /**
- * TODO rpc 接口实现类
+ * 用户 RPC 接口 服务提供方实现类
  *
  * @author lybugproducer
  * @since 2025/1/26 11:05
@@ -19,7 +19,7 @@ public class UserLyrpcImpl implements UserLyrpc {
      * @return {@link User} 用户信息
      */
     @Override
-    public String getUserById(int id) {
-        return PREFIX + id;
+    public User getUserById(int id) {
+        return new User(id, PREFIX + id);
     }
 }

@@ -2,14 +2,16 @@ package com.taihuafufc.lybugproducer;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
- * TODO
+ * 用户类
  *
  * @author lybugproducer
  * @since 2025/1/26 11:00
  */
 @Data
-public class User {
+public class User implements Serializable {
     private int id;
     private String name;
 
