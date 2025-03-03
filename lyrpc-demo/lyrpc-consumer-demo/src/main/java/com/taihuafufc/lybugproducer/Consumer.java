@@ -1,15 +1,10 @@
 package com.taihuafufc.lybugproducer;
 
 import com.taihuafufc.lybugproducer.bootstrap.LyrpcConsumerBootstrap;
-import com.taihuafufc.lybugproducer.compress.impl.DoNothingCompressor;
 import com.taihuafufc.lybugproducer.compress.impl.GZIPCompressor;
-import com.taihuafufc.lybugproducer.config.ClientConfig;
-import com.taihuafufc.lybugproducer.config.DatagramConfig;
-import com.taihuafufc.lybugproducer.config.ReferenceConfig;
-import com.taihuafufc.lybugproducer.config.RegistryConfig;
-import com.taihuafufc.lybugproducer.discovery.impl.ZookeeperRegistry;
+import com.taihuafufc.lybugproducer.config.*;
+import com.taihuafufc.lybugproducer.discovery.impl.ZookeeperConsumerRegistry;
 import com.taihuafufc.lybugproducer.serialize.impl.JdkSerializer;
-import com.taihuafufc.lybugproducer.serialize.impl.JsonSerializer;
 
 public class Consumer {
     public static void main(String[] args) {
@@ -22,8 +17,8 @@ public class Consumer {
         articleReferenceConfig.setInterfaceClass(ArticleLyrpc.class);
 
         // 定义注册中心配置
-        RegistryConfig registryConfig = new RegistryConfig();
-        registryConfig.setRegistryClass(ZookeeperRegistry.class);
+        ConsumerRegistryConfig registryConfig = new ConsumerRegistryConfig();
+        registryConfig.setRegistryClass(ZookeeperConsumerRegistry.class);
         registryConfig.setAddress("127.0.0.1:2181");
 
         // 定义数据报协议配置

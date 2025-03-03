@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class ZookeeperUtil {
 
+    public static final String ROOT_NODE_PATH = "/LYRPC";
+
     public static ZooKeeper createZookeeper(String server, int timeout) {
         try {
             return new ZooKeeper(server, timeout, null);

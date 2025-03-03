@@ -3,10 +3,10 @@ package com.taihuafufc.lybugproducer;
 import com.taihuafufc.lybugproducer.bootstrap.LyrpcProviderBootstrap;
 import com.taihuafufc.lybugproducer.compress.impl.GZIPCompressor;
 import com.taihuafufc.lybugproducer.config.DatagramConfig;
-import com.taihuafufc.lybugproducer.config.RegistryConfig;
+import com.taihuafufc.lybugproducer.config.ProviderRegistryConfig;
 import com.taihuafufc.lybugproducer.config.ServerConfig;
 import com.taihuafufc.lybugproducer.config.ServiceConfig;
-import com.taihuafufc.lybugproducer.discovery.impl.ZookeeperRegistry;
+import com.taihuafufc.lybugproducer.discovery.impl.ZookeeperProviderRegistry;
 import com.taihuafufc.lybugproducer.impl.ArticleLyrpcImpl;
 import com.taihuafufc.lybugproducer.impl.UserLyrpcImpl;
 import com.taihuafufc.lybugproducer.serialize.impl.JdkSerializer;
@@ -28,8 +28,8 @@ public class Provider {
         serverConfig.setWorkerThreads(10);
 
         // 注册中心配置
-        RegistryConfig registryConfig = new RegistryConfig();
-        registryConfig.setRegistryClass(ZookeeperRegistry.class);
+        ProviderRegistryConfig registryConfig = new ProviderRegistryConfig();
+        registryConfig.setRegistryClass(ZookeeperProviderRegistry.class);
         registryConfig.setAddress("127.0.0.1:2181");
 
         // 数据报协议配置

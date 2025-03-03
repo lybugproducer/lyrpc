@@ -8,15 +8,6 @@ package com.taihuafufc.lybugproducer.distribute;
  */
 public class LyrpcIdGenerator {
 
-    private static final LyrpcIdGenerator INSTANCE = new LyrpcIdGenerator();
-
-    public static LyrpcIdGenerator getInstance() {
-        return INSTANCE;
-    }
-
-    private LyrpcIdGenerator() {
-    }
-
     // 客户端 ID 属于服务消费者的全局唯一标识
     private long clientId;
 

@@ -4,6 +4,7 @@ import com.taihuafufc.lybugproducer.cache.LyrpcConsumerCache;
 import com.taihuafufc.lybugproducer.discovery.LyrpcRegistry;
 import com.taihuafufc.lybugproducer.distribute.LyrpcIdGenerator;
 import com.taihuafufc.lybugproducer.enumeration.LyrpcMessageType;
+import com.taihuafufc.lybugproducer.loadbalancer.LyrpcLoadBalancer;
 import com.taihuafufc.lybugproducer.trans.LyrpcRequest;
 import com.taihuafufc.lybugproducer.trans.LyrpcRequestPayload;
 import io.netty.channel.*;
@@ -25,26 +26,24 @@ public class LyrpcInvocationHandler<T> implements InvocationHandler {
 
     private final Class<T> interfaceClass;
 
-    private final LyrpcRegistry registry;
-
     private final LyrpcConsumerCache cache;
 
     private final LyrpcIdGenerator idGenerator;
 
-    public LyrpcInvocationHandler(LyrpcConsumerCache cache, Class<T> interfaceClass, LyrpcRegistry registry, LyrpcIdGenerator idGenerator) {
+    private final LyrpcLoadBalancer loadBalancer;
+
+    public LyrpcInvocationHandler(LyrpcConsumerCache cache, Class<T> interfaceClass, LyrpcIdGenerator idGenerator, LyrpcLoadBalancer loadBalancer) {
         this.interfaceClass = interfaceClass;
-        this.registry = registry;
         this.cache = cache;
         this.idGenerator = idGenerator;
+        this.loadBalancer = loadBalancer;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        // 使用注册中心 进行服务发现
-        List<String> list = registry.discover(interfaceClass);
 
         // 使用负载均衡算法 选择一个服务节点
-        String discover = list.get(0);
+        String discover = loadBalancer.choose(interfaceClass);
 
         // 选择一个 channel 进行远程调用
         Channel channel = cache.getChannel(discover);

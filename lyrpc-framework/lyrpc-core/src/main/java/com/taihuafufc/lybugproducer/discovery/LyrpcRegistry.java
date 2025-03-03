@@ -28,12 +28,4 @@ public interface LyrpcRegistry {
      */
     List<String> discover(Class<?> clazz);
 
-    /**
-     * 使用负载均衡算法从服务地址列表中选择一个地址
-     *
-     * @param discovered 服务地址列表
-     * @return 选择的服务地址
-     */
-    String select(List<String> discovered);
-
 }

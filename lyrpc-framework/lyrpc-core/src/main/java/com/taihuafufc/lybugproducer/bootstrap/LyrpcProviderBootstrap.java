@@ -1,7 +1,7 @@
 package com.taihuafufc.lybugproducer.bootstrap;
 
 import com.taihuafufc.lybugproducer.config.DatagramConfig;
-import com.taihuafufc.lybugproducer.config.RegistryConfig;
+import com.taihuafufc.lybugproducer.config.ProviderRegistryConfig;
 import com.taihuafufc.lybugproducer.config.ServerConfig;
 import com.taihuafufc.lybugproducer.config.ServiceConfig;
 import com.taihuafufc.lybugproducer.discovery.LyrpcRegistry;
@@ -66,7 +66,7 @@ public class LyrpcProviderBootstrap {
      * @param registryConfig 调用方注册中心配置
      * @return LyrpcProviderBootstrap 当前对象
      */
-    public LyrpcProviderBootstrap registry(RegistryConfig registryConfig) {
+    public LyrpcProviderBootstrap registry(ProviderRegistryConfig registryConfig) {
         // 避免重复配置
         if (registry == null) {
             // 注册中心配置

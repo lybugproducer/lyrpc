@@ -5,6 +5,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,8 +31,12 @@ public class LyrpcConsumerCache {
     // 通过 requestId 作为 key 缓存请求的返回值
     private final Map<Long, Class<?>> resultTypeCache;
 
+    // 通过 clazz 作为 key 缓存服务的地址的列表
+    private final Map<Class<?>, List<String>> serviceAddressCache;
+
     public LyrpcConsumerCache(Bootstrap bootstrap) {
         this.bootstrap = bootstrap;
+        this.serviceAddressCache = new ConcurrentHashMap<>();
         this.channelCache = new ConcurrentHashMap<>();
         this.requestCache = new ConcurrentHashMap<>();
         this.resultTypeCache = new ConcurrentHashMap<>();
@@ -133,5 +138,25 @@ public class LyrpcConsumerCache {
      */
     public void cacheResultType(long requestId, Class<?> resultType) {
         resultTypeCache.put(requestId, resultType);
+    }
+
+    /**
+     * 通过服务名获取服务地址列表
+     *
+     * @param clazz 服务接口类
+     * @return 服务地址列表
+     */
+    public List<String> getServiceAddressList(Class<?> clazz) {
+        return serviceAddressCache.get(clazz);
+    }
+
+    /**
+     * 更新服务地址列表
+     *
+     * @param clazz              服务接口类
+     * @param serviceAddressList 服务地址列表
+     */
+    public void refreshServiceAddressList(Class<?> clazz, List<String> serviceAddressList) {
+        serviceAddressCache.put(clazz, serviceAddressList);
     }
 }

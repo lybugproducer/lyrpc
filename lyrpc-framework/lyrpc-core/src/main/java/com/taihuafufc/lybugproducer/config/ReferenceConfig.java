@@ -4,6 +4,7 @@ import com.taihuafufc.lybugproducer.cache.LyrpcConsumerCache;
 import com.taihuafufc.lybugproducer.discovery.LyrpcRegistry;
 import com.taihuafufc.lybugproducer.distribute.LyrpcIdGenerator;
 import com.taihuafufc.lybugproducer.handler.LyrpcInvocationHandler;
+import com.taihuafufc.lybugproducer.loadbalancer.LyrpcLoadBalancer;
 import lombok.Data;
 
 import java.lang.reflect.Proxy;
@@ -19,7 +20,7 @@ public class ReferenceConfig<T> {
 
     private Class<T> interfaceClass;
 
-    private LyrpcRegistry registry;
+    private LyrpcLoadBalancer loadBalancer;
 
     private LyrpcConsumerCache cache;
 
@@ -37,8 +38,8 @@ public class ReferenceConfig<T> {
             throw new IllegalArgumentException("interfaceClass cannot be null");
         }
 
-        if (registry == null) {
-            throw new IllegalArgumentException("registry cannot be null");
+        if (loadBalancer == null) {
+            throw new IllegalArgumentException("loadBalancer cannot be null");
         }
 
         if (cache == null) {
@@ -51,6 +52,6 @@ public class ReferenceConfig<T> {
 
         return (T) Proxy.newProxyInstance(getClass().getClassLoader(),
                 new Class[]{interfaceClass},
-                new LyrpcInvocationHandler<>(cache, interfaceClass, registry, idGenerator));
+                new LyrpcInvocationHandler<>(cache, interfaceClass, idGenerator, loadBalancer));
     }
 }

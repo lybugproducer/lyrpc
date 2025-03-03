@@ -6,7 +6,7 @@ package com.taihuafufc.lybugproducer;
  * @author lybugproducer
  * @since 2025/2/6 11:04
  */
-public interface ArticleLyrpc {
+public interface ArticleLyrpc extends Lyrpc {
     /**
      * 通过文章 ID 获取文章内容
      *

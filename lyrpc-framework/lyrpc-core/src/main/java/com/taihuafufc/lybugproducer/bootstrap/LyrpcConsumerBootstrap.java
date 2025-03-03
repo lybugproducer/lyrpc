@@ -1,23 +1,24 @@
 package com.taihuafufc.lybugproducer.bootstrap;
 
 import com.taihuafufc.lybugproducer.cache.LyrpcConsumerCache;
-import com.taihuafufc.lybugproducer.config.ClientConfig;
-import com.taihuafufc.lybugproducer.config.DatagramConfig;
-import com.taihuafufc.lybugproducer.config.ReferenceConfig;
-import com.taihuafufc.lybugproducer.config.RegistryConfig;
+import com.taihuafufc.lybugproducer.config.*;
 import com.taihuafufc.lybugproducer.discovery.LyrpcRegistry;
 import com.taihuafufc.lybugproducer.distribute.LyrpcIdGenerator;
 import com.taihuafufc.lybugproducer.handler.LyrpcResultHandler;
 import com.taihuafufc.lybugproducer.handler.LyrpcDatagramHandler;
+import com.taihuafufc.lybugproducer.loadbalancer.LyrpcLoadBalancer;
 import com.taihuafufc.lybugproducer.trans.LyrpcRequestEncoder;
 import com.taihuafufc.lybugproducer.trans.LyrpcResponseDecoder;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * LyrpcConsumerBootstrap 服务调用方启动类
@@ -32,6 +33,10 @@ public class LyrpcConsumerBootstrap {
 
     private final Bootstrap bootstrap;
 
+    private LyrpcRegistry registry;
+
+    private LyrpcLoadBalancer loadBalancer;
+
     private final LyrpcConsumerCache cache;
 
     private LyrpcDatagramHandler datagramHandler;
@@ -43,15 +48,13 @@ public class LyrpcConsumerBootstrap {
                 .group(new NioEventLoopGroup())
                 .channel(NioSocketChannel.class);
         cache = new LyrpcConsumerCache(bootstrap);
-        idGenerator = LyrpcIdGenerator.getInstance();
+        idGenerator = new LyrpcIdGenerator();
         log.info("consumer bootstrap instance initialized");
     }
 
     public static LyrpcConsumerBootstrap getInstance() {
         return INSTANCE;
     }
-
-    private LyrpcRegistry registry;
 
     /**
      * 配置调用方注册中心信息
@@ -61,13 +64,25 @@ public class LyrpcConsumerBootstrap {
      * @author lybugproducer
      * @since 2025/2/16 10:54
      */
-    public LyrpcConsumerBootstrap registry(RegistryConfig registryConfig) {
+    public LyrpcConsumerBootstrap registry(ConsumerRegistryConfig registryConfig) {
         // 避免重复配置
         if (registry == null) {
             // 注册中心配置
-            registry = registryConfig.getRegistry();
+            registry = registryConfig.getRegistry(cache);
 
             log.info("consumer registry config: {}", registryConfig);
+        }
+        return this;
+    }
+
+    /**
+     * 配置负载均衡器
+     *
+     */
+    public LyrpcConsumerBootstrap loadBalancer(LoadBalancerConfig loadBalancerConfig) {
+        if (loadBalancer == null) {
+            // 避免重复配置
+            loadBalancer = loadBalancerConfig.getLoadBalancer();
         }
         return this;
     }
@@ -112,7 +127,7 @@ public class LyrpcConsumerBootstrap {
      * @since 2025/2/16 10:54
      */
     public LyrpcConsumerBootstrap reference(ReferenceConfig<?> referenceConfig) {
-        referenceConfig.setRegistry(registry);
+        referenceConfig.setLoadBalancer(loadBalancer);
         referenceConfig.setCache(cache);
         referenceConfig.setIdGenerator(idGenerator);
         log.info("consumer reference config: {}", referenceConfig);
@@ -120,7 +135,7 @@ public class LyrpcConsumerBootstrap {
     }
 
     /**
-     * 初始化 Netty 客户端 Channel 并添加处理器
+     * 初始化 Netty 客户端报文处理器
      *
      * @param datagramHandler 报文处理器
      * @author lybugproducer
