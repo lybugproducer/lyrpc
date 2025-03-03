@@ -10,6 +10,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/lyroc-manager/pom.xml" />
+        <option value="$PROJECT_DIR$/lyrpc-framework/lyrpc-core-provider/pom.xml" />
         <option value="$PROJECT_DIR$/yrpc-common/pom.xml" />
       </set>
     </option>
