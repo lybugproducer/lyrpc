@@ -1,0 +1,13 @@
+<!ELEMENT lyrpc-provider (registry | datagram | server)*>
+
+        <!ELEMENT registry (registry-class, registry-url+)>
+        <!ELEMENT registry-class (#PCDATA)>
+        <!ELEMENT registry-url (#PCDATA)>
+
+        <!ELEMENT datagram (serializer-class, compressor-class)>
+        <!ELEMENT serializer-class (#PCDATA)>
+        <!ELEMENT compressor-class (#PCDATA)>
+
+        <!ELEMENT server (address, worker-threads)>
+        <!ELEMENT address (#PCDATA)>
+        <!ELEMENT worker-threads (#PCDATA)>

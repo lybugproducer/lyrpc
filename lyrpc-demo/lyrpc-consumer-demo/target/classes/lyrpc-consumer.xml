@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<lyrpc-consumer>
+
+    <registry>
+        <registry-class>com.lyrpc.core.discovery.impl.ZookeeperConsumerRegistry</registry-class>
+        <registry-url>127.0.0.1:2181</registry-url>
+    </registry>
+
+    <load-balancer>
+        <load-balancer-class>com.lyrpc.core.loadbalancer.impl.RoundRobinLoadBalancer</load-balancer-class>
+    </load-balancer>
+
+    <datagram>
+        <serializer-class>com.lyrpc.core.serializer.impl.JdkSerializer</serializer-class>
+        <compressor-class>com.lyrpc.core.compressor.impl.GzipCompressor</compressor-class>
+    </datagram>
+
+    <client>
+        <data-center-id>1</data-center-id>
+        <worker-id>1</worker-id>
+    </client>
+
+</lyrpc-consumer>

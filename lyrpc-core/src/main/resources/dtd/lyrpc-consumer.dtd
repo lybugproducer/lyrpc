@@ -1,0 +1,16 @@
+<!ELEMENT lyrpc-consumer (registry | load-balancer | datagram | client)*>
+
+        <!ELEMENT registry (registry-class, registry-url+)>
+        <!ELEMENT registry-class (#PCDATA)>
+        <!ELEMENT registry-url (#PCDATA)>
+
+        <!ELEMENT load-balancer (load-balancer-class)>
+        <!ELEMENT load-balancer-class (#PCDATA)>
+
+        <!ELEMENT datagram (serializer-class, compressor-class)>
+        <!ELEMENT serializer-class (#PCDATA)>
+        <!ELEMENT compressor-class (#PCDATA)>
+
+        <!ELEMENT client (data-center-id, worker-id)>
+        <!ELEMENT data-center-id (#PCDATA)>
+        <!ELEMENT worker-id (#PCDATA)>

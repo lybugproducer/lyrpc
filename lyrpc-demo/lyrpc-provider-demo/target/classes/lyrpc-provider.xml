@@ -1,0 +1,18 @@
+<lyrpc-provider>
+
+    <registry>
+        <registry-class>com.lyrpc.core.discovery.impl.ZookeeperProviderRegistry</registry-class>
+        <registry-url>127.0.0.1:2181</registry-url>
+    </registry>
+
+    <datagram>
+        <serializer-class>com.lyrpc.core.serializer.impl.JdkSerializer</serializer-class>
+        <compressor-class>com.lyrpc.core.compressor.impl.GzipCompressor</compressor-class>
+    </datagram>
+
+    <server>
+        <address>127.0.0.1:23456</address>
+        <worker-threads>10</worker-threads>
+    </server>
+
+</lyrpc-provider>
